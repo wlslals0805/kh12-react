@@ -20,29 +20,57 @@ const Exam10 = () =>{
     ]);
 
     return(
-        <>
+        <div className="container-fluid">
+            <div className="row">
+                <div className="col-md-10 offset-md-1">
+            <div className="p-4 text-light bg-dark rounded">
 
-        <h1>객체 배열 상태변수2</h1>
+        <h1>상품목록</h1>
+        </div>
 
+            <div className="row mt-4">
+                <div className="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+        <th>번호</th>
+        <th>상품명</th>
+        <th>가격</th>
+        <th>분류</th>
+        </tr>
+        </thead>
+        
+        <tbody>
             {items.map((item,index)=>
-            
-            <div key={item.itemNo}>
-                {index}
-                -
-                {item.itemNo}
-                -
-                {item.itemName}
-                -
-                {item.itemPrice}
-                -
-                {item.itemType}
+    
+            <tr>
+                <td key={item.itemNo}>{item.itemNo}</td>
+                
+                <td>{item.itemName}</td>
+               
+                <td>{item.itemPrice}</td>
+             
+                <td>{item.itemType}</td>
+
+
+                </tr>
+                )}
+                </tbody>
+
+                    </table>
+
+               
+            </div>
+
+           
 
             </div>
             
             
-            )}
+        </div>
+        </div>
+        </div>
         
-        </>
 
     );
 
