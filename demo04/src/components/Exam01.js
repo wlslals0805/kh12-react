@@ -1,4 +1,5 @@
 import { useEffect, useState,useRef } from "react";
+import {Modal} from "bootstrap";
 
 const Exam01 = () =>{
 
@@ -32,25 +33,25 @@ const Exam01 = () =>{
         })
         setTodoList(newTodoList);
         }
+  
+        const addTodoList= e =>{
 
+            const todoNo = todoList.length==0?1 : todoList[todoList.length-1].no+1
 
-        // const addTodoList e =>{
-
-        //     const todoNo = 
-
-        //     const newTodoList = [
+            const newTodoList = [
             
                 
-        //         ...todo,
+                ...todoList,
                 
-        //         {
-        //             ...data,
-        //             edit:false
-        //             no : todoNo
+                {
+                    ...data,
+                    edit:false,
+                    no : todoNo
                     
-        //         }
+                }
                 
-        //     ]
+            ]
+            setTodoList(newTodoList);
             
             
         }
@@ -97,11 +98,11 @@ const Exam01 = () =>{
 
         }
 
-        const changeTodo = (target,e) =>{
+        const changeTodo = (e,pickedInput) =>{
 
             const newTodoList = todoList.map(todo=>{
                  
-                if(todo.no === target.no){
+                if(todo.no === pickedInput.no){
 
                     return{
 
@@ -172,14 +173,49 @@ const Exam01 = () =>{
 
         }
 
-        
+        const changeData = (e) =>{
+
+            const newData = {
+
+                ...data,
+                [e.target.name] : e.target.value
+
+            }
+
+            setData(newData);
+
+        }
+
+    
+
+        const openModal=()=>{
+
+            const modal =new Modal(bsModal.current);
+
+            modal.show();
+
+        }
         
 
         return(
             <>
+            
+            <div className="row mt-4">
+            <div className="col">
+                <button type="button" className="btn btn-primary" 
+                                            onClick={openModal}>
+                    신규등록
+                </button>
+            </div>
+
+        </div>
+
         
         <div className="row mt-4">
                 <div className="col">
+
+            
+
             <table className="table">
                 <thead>
             <tr>
@@ -201,10 +237,10 @@ const Exam01 = () =>{
                         <td>{todo.no}</td>
                         <td><input type="text" className="form-control" 
                         name="title" value={todo.title} 
-                        onChange={e=>changeTodo(todo,e)}/></td>
+                        onChange={e=>changeTodo(e,todo)}/></td>
                         <td><input type="text" className="form-control" 
                         name="type" value={todo.type}
-                        onChange={e=>changeTodo(todo,e)}/></td>
+                        onChange={e=>changeTodo(e,todo)}/></td>
                         <td><button className="btn btn-sm btn-warning" onClick={e=>cancel(todo)}>취소</button>
                         <button className="btn btn-sm btn-danger ms-1" onClick={e=>save(todo)}>완료</button></td>
                       
@@ -240,7 +276,7 @@ const Exam01 = () =>{
             <div className="modal-dialog">
                 <div className="modal-content">
                  <div className="modal-header">
-                     <h1 className="modal-title fs-5" id="exampleModalLabel">일정 변경</h1>
+                     <h1 className="modal-title fs-5" id="exampleModalLabel">일정 추가</h1>
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
           <sapn aria-hidden="true">&times;</sapn>
         </button>
@@ -250,11 +286,11 @@ const Exam01 = () =>{
           <div className="row mt-4">
             <div className="col">
               <label className="form-label">할일</label>
-              <input className="form-control" type="text" name="title" value={data.title} onChange={changeData}/>
+              <input className="form-control" type="text" name="title" value={data.title} onChange={e=>changeData(e)}/>
             </div>
             <div className="col">
             <label className="form-label">종류</label>
-              <input type="text" className="control-form" name="type" value={data.type} onChange={changeData}/>
+              <input type="text" className="form-control" name="type" value={data.type} onChange={e=>changeData(e)}/>
             </div>
 
            
@@ -264,8 +300,8 @@ const Exam01 = () =>{
       </div>
       <div className="modal-footer">
       
-            <button className="btn btn-secondary" onClick={clearEditData}>취소</button>
-              <button className="btn btn-success" onClick={saveTodoList}>저장</button>
+            <button className="btn btn-secondary">취소</button>
+              <button className="btn btn-success" onClick={addTodoList}>저장</button>
 
       </div>
     </div>
