@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
-//link대신 import를 통해 설치한 라이브러리의 CSS를 불러오도록 처리
-// -node_modeules에 설치한 요소들은 바로 이름을 사용하여 접근 가능
 import './index.css';
-import App from './App';
+// import App from './App';
+import App from './App_self';
 import reportWebVitals from './reportWebVitals';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootswatch/dist/minty/bootstrap.min.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/bootswatch/dist/minty/bootstrap.min.css';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

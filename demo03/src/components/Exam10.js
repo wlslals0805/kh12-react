@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import {Modal} from "bootstrap";
 
 const Exam10 = () =>{
@@ -25,7 +25,13 @@ const Exam10 = () =>{
         itemName:"",
         itemPrice:"",
         itemType:"",
-    });
+       
+});
+
+    //useRef : 특정 대상(태그)을 참조할 수 있는 훅
+    //-const 이름 = useRef(초기값);
+    //-태그에 ref라는 속성으로 이름을 지정해두면 언제든지 불러서 사용할 수 있다
+    const bsModal = useRef();
 
     const changeData = e=>{
         
@@ -56,9 +62,6 @@ const Exam10 = () =>{
 
         // console.log(item.itemNo);
 
-
-  
-
         const newItems = items.map(item=>{
 
             if(item.itemNo === target.itemNo){//target과 같은 번호의 상품만큼은
@@ -82,6 +85,7 @@ const Exam10 = () =>{
     //줄의 데이터를 변경하는 함수
     //-어떤 아이템인지(target)와 뭐라고 입력했는지(e)를 알아야 한다
     const changeItem = (target,e)=>{
+        console.log(target);
         const newItems = items.map(item=>{
             if(item.itemNo === target.itemNo){//같은 번호를 발견한다면
                 
@@ -140,6 +144,7 @@ const Exam10 = () =>{
         });
         setBackup(newBackup);
 
+        //아이템 변경
         const newItems = items.map(item=>{
 
             if(item.itemNo === target.itemNo){//target과 같은 번호의 상품만큼은
@@ -216,19 +221,36 @@ const Exam10 = () =>{
         closeModal();
     
     };
+    //모달창 취소버튼
+    const cancelAddItem = () => {
+     
+                //입력창 초기화
+                setData({
+                    itemName:"",
+                    itemPrice:"",
+                    itemType:"",
+                });
+        
+                //모달 닫기
+                closeModal();
+
+
+    }
     
 
     //모달 여는 함수
     const openModal = e =>{
-        var modal = new Modal(document.querySelector("#exampleModal"));
+        // var modal = new Modal(document.querySelector("#exampleModal"));//Vanilla style
+        var modal = new Modal(bsModal.current);//React style
         modal.show();
     };
 
     //모달 닫는 함수
     const closeModal = () =>{
-        var modal = new Modal(document.querySelector("#exampleModal"));
+        // var modal = Modal.getInstance(document.querySelector("#exampleModal"));//Vanilla style
+        var modal = Modal.getInstance(bsModal.current);//React style
         modal.hide();
-    }
+    };
 
     return(
         <div className="container-fluid">
@@ -337,23 +359,46 @@ const Exam10 = () =>{
         </div>
 
         {/*  Modal */}
-<div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div className="modal fade" id="exampleModal" 
+data-bs-backdrop="static" ref={bsModal} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
-        <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <h1 className="modal-title fs-5" id="exampleModalLabel">신규 상품 등록</h1>
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div className="modal-body">
-      상품명 <input name="itemName" value={data.itemName} onChange={changeData}/><br/><br/>
-                가격 <input name="itemPrice" value={data.itemPrice} onChange={changeData}/><br/><br/>
-                분류 <input name="itemType" value={data.itemType} onChange={changeData}/><br/><br/>
-                <button type="button" className="btn btn-primary" 
-                onClick={addItem}>추가</button>
+        <div className="row">
+            <div className="col">
+     <label className="form-label"> 상품명 </label> 
+      <input name="itemName" className="form-control" value={data.itemName} onChange={changeData}/>
+            </div>
+        </div>
+        <div className="row">
+            <div className="col">
+     <label className="form-label"> 가격 </label> 
+     <input name="itemPrice" className="form-control" value={data.itemPrice} onChange={changeData}/>
+            </div>
+        </div>
+        <div className="row">
+            <div className="col">
+     <label className="form-label"> 분류 </label> 
+     <input name="itemType" className="form-control" value={data.itemType} onChange={changeData}/>
+            </div>
+        </div>
+                
+                 
+                
       </div>
       <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Save changes</button>
+        {/* 자동으로 닫히게 하는 버튼 */}
+        {/* <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">취소</button> */}
+
+        {/* 수동으로 원하는 로직을 추가하여 닫히게 하는 버튼 */}
+        <button type="button" className="btn btn-secondary" onClick={cancelAddItem}>취소</button>
+
+        <button type="button" className="btn btn-primary" 
+                onClick={addItem}>추가</button>
       </div>
     </div>
   </div>
