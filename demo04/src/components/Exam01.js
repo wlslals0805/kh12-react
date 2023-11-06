@@ -36,7 +36,7 @@ const Exam01 = () =>{
   
         const addTodoList= e =>{
 
-            const todoNo = todoList.length==0?1 : todoList[todoList.length-1].no+1
+            const todoNo = todoList.length===0? 1 : todoList[todoList.length-1].no+1
 
             const newTodoList = [
             
@@ -51,9 +51,32 @@ const Exam01 = () =>{
                 }
                 
             ]
+
             setTodoList(newTodoList);
+
+            const newBackup = [
+
+                ...backup,
+                {
+                    ...data,
+                    edit:false,
+                    no : todoNo
+
+                }
+
+            ]
+
+            setBackup(newBackup);
             
-            
+            const newData = {
+
+                no:"",title:"",type:""
+
+            }
+
+            setData(newData);
+
+
         }
         
     
