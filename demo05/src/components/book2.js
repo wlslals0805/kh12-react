@@ -9,7 +9,6 @@ import "./book.css";
 
 const Book = (props)=>{
     const [bookList, setBookList] = useState([]);
-    const [searchTitle,setSearchTitle] = useState(" ");
 
     // const loadBook = () => {
 
@@ -215,32 +214,9 @@ const Book = (props)=>{
             
         }
 
-        const searchBook = (bookTitle) =>{
+      
 
-            axios({
-
-                url:`${process.env.REACT_APP_REST_API_URL}/book/bookTitle/${bookTitle}`,
-                method:"get"
-
-            })
-            .then(response=>{
-
-                setBookList(response.data)
-
-            }
-
-            )
-            .catch()
-        }
-
-       
-
-        const changeSearch=(e)=>{
-
-            setSearchTitle(e.target.value)
-
-
-        }
+      
 
       
         
@@ -256,14 +232,7 @@ const Book = (props)=>{
                 </div>
             </div>
 
-            
-                            <input className="form-control me-sm-2" type="search" placeholder="Search" 
-                            onChange={changeSearch}/>
-                            <button className="btn btn-secondary my-2 my-sm-0" 
-                            // onClick={function(e){searchBook(searchTitle)}}
-                            onClick={e=>searchBook(searchTitle)}
-                            >Search</button> 
-                        
+           
 
             {/* 추가 버튼 */}
             <div className="row mt-4">
@@ -403,6 +372,7 @@ const Book = (props)=>{
                     </div>
                 </div>
             </div>
+
         </>
     );
 };
